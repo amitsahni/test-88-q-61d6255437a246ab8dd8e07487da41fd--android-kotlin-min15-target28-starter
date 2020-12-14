@@ -7,10 +7,10 @@ import nishan.softient.domain.extension.fromJson
 import nishan.softient.domain.extension.toJson
 import nishan.softient.domain.manager.GooglePlaceDataManager
 
-typealias GooglePlace = UseCase<GooglePlaceRequest, GooglePlaceResult>
+typealias GooglePlaceBaseUseCase = UseCase<GooglePlaceRequest, GooglePlaceResult>
 
 class GooglePlaceUseCase(private val dataManager: GooglePlaceDataManager) :
-        GooglePlace {
+        GooglePlaceBaseUseCase {
     override suspend fun onExecute(parameter: GooglePlaceRequest?) =
             dataManager.restaurants(parameter?.toJson().fromJson()).toResult()
 

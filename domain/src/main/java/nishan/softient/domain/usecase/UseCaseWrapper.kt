@@ -13,12 +13,7 @@ import java.net.UnknownHostException
 import java.security.cert.CertificateException
 import java.util.concurrent.TimeoutException
 
-
-interface UseCase<P, R> : BaseUseCase<P, R> {
-    override suspend fun onExecute(parameter: P?): Result<R>
-}
-
-interface BaseUseCase<P, R> {
+interface UseCase<P, R> {
 
     suspend fun onExecute(parameter: P?): Result<R>
     fun execute(
