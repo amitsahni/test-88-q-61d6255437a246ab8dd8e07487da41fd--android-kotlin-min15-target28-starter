@@ -4,10 +4,10 @@ import nishan.softient.domain.entity.request.GooglePlaceRequest
 import nishan.softient.domain.entity.response.GooglePlaceResult
 import nishan.softient.domain.entity.response.base.Failure
 import nishan.softient.domain.entity.wrapped.Result
-import nishan.softient.domain.usecase.UseCase
+import nishan.softient.domain.usecase.GooglePlace
 
 class GooglePlaceFakeUseCase(var uiState: UiState) :
-    BaseTestUseCase<GooglePlaceRequest, GooglePlaceResult> {
+        BaseTestUseCase<GooglePlaceRequest, GooglePlaceResult>, GooglePlace {
 
     override suspend fun onExecute(parameter: GooglePlaceRequest?): Result<GooglePlaceResult> {
         return when (uiState) {

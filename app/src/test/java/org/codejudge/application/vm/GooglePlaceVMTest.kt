@@ -3,6 +3,7 @@ package org.codejudge.application.vm
 import androidx.lifecycle.asLiveData
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.GlobalScope
+import nishan.softient.domain.entity.request.GooglePlaceRequest
 import nishan.softient.domain.entity.wrapped.ResultError
 import nishan.softient.domain.entity.wrapped.ResultSuccess
 import org.codejudge.application.BaseTest
@@ -16,6 +17,7 @@ import org.junit.Test
 class GooglePlaceVMTest : BaseTest() {
 
     private lateinit var placeFakeUseCase: GooglePlaceFakeUseCase
+    private lateinit var googlePlaceVM: GooglePlaceVM
 
     @Before
     fun setUp() {
@@ -25,8 +27,9 @@ class GooglePlaceVMTest : BaseTest() {
     @Test
     fun placeApi_returnSuccess() {
         placeFakeUseCase.uiState = UiState.SUCCESS
-        val liveData = placeFakeUseCase.execute(GlobalScope, null).asLiveData()
-        when (val result = liveData.getOrAwaitTestValue().peekContent()) {
+        initVM()
+        googlePlaceVM.post(PlaceSearchEvent.Place(GooglePlaceRequest()))
+        when(val result = googlePlaceVM.googlePlaceLiveData.getOrAwaitTestValue().peekContent()){
             is ResultSuccess -> {
                 assertThat(result.data.results.size).isEqualTo(0)
             }
@@ -37,12 +40,17 @@ class GooglePlaceVMTest : BaseTest() {
     @Test
     fun placeApi_returnError() {
         placeFakeUseCase.uiState = UiState.ERROR
-        val liveData = placeFakeUseCase.execute(GlobalScope, null).asLiveData()
-        when (val result = liveData.getOrAwaitTestValue().peekContent()) {
+        initVM()
+        googlePlaceVM.post(PlaceSearchEvent.Place(GooglePlaceRequest()))
+        when (val result = googlePlaceVM.googlePlaceLiveData.getOrAwaitTestValue().peekContent()) {
             is ResultError -> {
                 assertThat(result).isInstanceOf(ResultError::class.java)
                 assertThat(result.error.message).isEqualTo("Something went wrong")
             }
         }
+    }
+
+    private fun initVM(){
+        googlePlaceVM = GooglePlaceVM(placeFakeUseCase)
     }
 }

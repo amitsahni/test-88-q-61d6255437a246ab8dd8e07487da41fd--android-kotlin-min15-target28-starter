@@ -3,10 +3,11 @@ package org.codejudge.application.vm
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import nishan.softient.domain.entity.request.GooglePlaceRequest
+import nishan.softient.domain.usecase.GooglePlace
 import nishan.softient.domain.usecase.GooglePlaceUseCase
 
 class GooglePlaceVM(
-    private val placeUseCase: GooglePlaceUseCase
+    private val placeUseCase: GooglePlace
 ) : BaseVM() {
 
     override fun onAction(event: UserEvent) {
