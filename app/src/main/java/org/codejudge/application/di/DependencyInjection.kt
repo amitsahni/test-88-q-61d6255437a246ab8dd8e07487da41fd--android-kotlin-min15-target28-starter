@@ -7,6 +7,7 @@ import nishan.softient.data.datasource.remote.RetrofitManager
 import nishan.softient.data.repository.GooglePlaceRepoImpl
 import nishan.softient.domain.manager.GooglePlaceDataManager
 import nishan.softient.domain.repository.GooglePlaceRepo
+import nishan.softient.domain.usecase.GooglePlaceBaseUseCase
 import nishan.softient.domain.usecase.GooglePlaceUseCase
 import org.codejudge.application.BuildConfig
 import org.codejudge.application.vm.GooglePlaceVM
@@ -22,7 +23,7 @@ val vm = module {
 
 val useCases = module {
     // PlaceDataManager
-    factory { GooglePlaceUseCase(get()) }
+    factory { GooglePlaceUseCase(get()) as GooglePlaceBaseUseCase}
 }
 
 val manager = module {

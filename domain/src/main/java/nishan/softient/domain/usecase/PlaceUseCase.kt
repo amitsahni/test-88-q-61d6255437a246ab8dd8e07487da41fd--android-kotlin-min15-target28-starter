@@ -7,7 +7,7 @@ import nishan.softient.domain.extension.fromJson
 import nishan.softient.domain.extension.toJson
 import nishan.softient.domain.manager.GooglePlaceDataManager
 
-typealias GooglePlaceBaseUseCase = UseCase<GooglePlaceRequest, GooglePlaceResult>
+interface GooglePlaceBaseUseCase : UseCase<GooglePlaceRequest, GooglePlaceResult>
 
 class GooglePlaceUseCase(private val dataManager: GooglePlaceDataManager) :
         GooglePlaceBaseUseCase {

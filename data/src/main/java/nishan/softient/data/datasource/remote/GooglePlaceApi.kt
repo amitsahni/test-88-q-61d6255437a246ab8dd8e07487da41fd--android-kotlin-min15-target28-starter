@@ -9,7 +9,7 @@ import retrofit2.http.QueryMap
 
 interface GooglePlaceApi {
 
-    @GET("/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDhHzf6y1brSirE2hPeMjTqSBYE73pzukM")
+    @GET("/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyClCtHSPnbIKfxv4S3C6LoGSjhFQmgcaIw")
     suspend fun restaurants(@QueryMap map: Map<String, String>): Response<GooglePlaceResult>
 
     companion object {
