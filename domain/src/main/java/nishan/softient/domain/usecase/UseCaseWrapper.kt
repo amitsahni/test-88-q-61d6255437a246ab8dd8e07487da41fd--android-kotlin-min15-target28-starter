@@ -5,7 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import nishan.softient.domain.entity.response.base.Failure
-import nishan.softient.domain.entity.wrapped.*
+import nishan.softient.domain.entity.wrapped.Event
+import nishan.softient.domain.entity.wrapped.Resource
 import timber.log.Timber
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -15,25 +16,25 @@ import java.util.concurrent.TimeoutException
 
 interface UseCase<P, R> {
 
-    suspend fun onExecute(parameter: P?): Result<R>
+    suspend fun onExecute(parameter: P?): Resource<R>
     fun execute(
-        scope: CoroutineScope,
-        parameter: P? = null
-    ): Flow<EventResult<R>> {
+            scope: CoroutineScope,
+            parameter: P? = null
+    ): Flow<Event<Resource<R>>> {
         return flow {
-            emit(Event(ResultLoading))
+            emit(Event(Resource.Loading))
             emit(Event(onExecute(parameter)))
         }.catch { e ->
             Timber.e(e)
-            emit(Event(ResultError(Failure(e.getHTTPError()))))
+            emit(Event(Resource.Error(-1, Failure(e.getHTTPError()))))
         }
     }
 
-    suspend fun executes(parameter: P? = null): Result<R> {
+    suspend fun executes(parameter: P? = null): Resource<R> {
         return try {
             onExecute(parameter)
         } catch (e: Exception) {
-            ResultError(Failure(e.getHTTPError()))
+            Resource.Error(-1, Failure(e.getHTTPError()))
         }
 
     }

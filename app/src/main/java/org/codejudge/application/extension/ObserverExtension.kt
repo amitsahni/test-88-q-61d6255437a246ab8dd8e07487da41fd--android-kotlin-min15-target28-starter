@@ -3,10 +3,7 @@ package org.codejudge.application.extension
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import nishan.softient.domain.entity.response.base.Failure
-import nishan.softient.domain.entity.wrapped.EventResult
-import nishan.softient.domain.entity.wrapped.ResultError
-import nishan.softient.domain.entity.wrapped.ResultLoading
-import nishan.softient.domain.entity.wrapped.ResultSuccess
+import nishan.softient.domain.entity.wrapped.*
 import org.codejudge.application.ui.base.hideLoader
 import org.codejudge.application.ui.base.showLoader
 import org.codejudge.application.ui.base.snackBar
@@ -20,18 +17,18 @@ class EventObserver<T>(
     override fun onChanged(event: EventResult<T>?) {
         event?.getContentIfNotHandled()?.let { value ->
             when (value) {
-                is ResultLoading -> {
+                is Resource.Loading -> {
                     if (loader)
                         activity?.showLoader()
                 }
 
-                is ResultSuccess -> {
+                is Resource.Success -> {
                     if (loader)
                         activity?.hideLoader()
                     success(value.data)
                 }
 
-                is ResultError -> {
+                is Resource.Error -> {
                     if (loader)
                         activity?.hideLoader()
                     if (notify)
@@ -50,15 +47,15 @@ class EventResultObserver<T>(
     override fun onChanged(event: EventResult<T>?) {
         event?.getContentIfNotHandled()?.let { value ->
             when (value) {
-                is ResultLoading -> {
+                is Resource.Loading -> {
                     loading()
                 }
 
-                is ResultSuccess -> {
+                is Resource.Success -> {
                     success(value.data)
                 }
 
-                is ResultError -> {
+                is Resource.Error -> {
                     error(value.error)
                 }
             }

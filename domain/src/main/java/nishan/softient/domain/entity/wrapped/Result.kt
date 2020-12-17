@@ -2,7 +2,7 @@ package nishan.softient.domain.entity.wrapped
 
 import nishan.softient.domain.entity.response.base.Failure
 
-typealias ResultLoading = Result.Loading
+/*typealias ResultLoading = Result.Loading
 typealias ResultSuccess<T> = Result.Success<T>
 typealias ResultError = Result.Error
 
@@ -21,9 +21,9 @@ sealed class Result<out T> {
     }
 }
 
-/**
+*//**
  * `true` if [State] is of episodeType [Success] & holds non-null [Success.data].
- */
+ *//*
 val Result<*>.succeeded
     get() = this is ResultSuccess && data != null
 
@@ -38,9 +38,10 @@ fun <T> Result<T>.success(): T? {
 fun <T : Any> Result<T>.success(action: (T) -> Unit): Result<T> {
     if (this is ResultSuccess) action.invoke(data)
     return this
-}
+}*/
 
 
+/*
 fun <T> Response<T>.toResult(): Result<T> {
     return when (this) {
         is ResponseSuccess -> {
@@ -50,4 +51,4 @@ fun <T> Response<T>.toResult(): Result<T> {
             ResultError(error)
         }
     }
-}
+}*/

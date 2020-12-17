@@ -1,6 +1,7 @@
 package nishan.softient.data.datasource.remote
 
 import nishan.softient.domain.entity.response.GooglePlaceResult
+import nishan.softient.domain.entity.wrapped.Resource
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.GET
