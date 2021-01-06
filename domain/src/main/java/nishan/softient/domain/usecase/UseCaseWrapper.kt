@@ -19,7 +19,8 @@ interface UseCase<P, R> {
     suspend fun onExecute(parameter: P?): EventResult<R>
 
     fun execute(
-        parameter: P? = null
+        parameter: P? = null,
+        isTesting: Boolean = false
     ): FlowEventResult<R> {
         return flow {
             emit(Event(Resource.Loading))
@@ -40,13 +41,17 @@ interface UseCase<P, R> {
 }
 
 interface FlowUseCase<P, R> {
+
     suspend fun onExecute(parameter: P?): FlowEventResult<R>
 
     fun execute(
-        parameter: P? = null
+        parameter: P? = null,
+        isTesting: Boolean = false
     ): FlowEventResult<R> {
         return flow {
-            emit(Event(Resource.Loading))
+            if (!isTesting) {
+                emit(Event(Resource.Loading))
+            }
             emitAll(onExecute(parameter))
         }.catch { e ->
             Timber.e(e)
@@ -55,7 +60,7 @@ interface FlowUseCase<P, R> {
     }
 }
 
-private fun Throwable.getHTTPError(): String {
+fun Throwable.getHTTPError(): String {
     return if (javaClass.name.contains(UnknownHostException::class.java.name)) {
         "Check your internet connection and try again"
     } else if (javaClass.name.contains(TimeoutException::class.java.name)

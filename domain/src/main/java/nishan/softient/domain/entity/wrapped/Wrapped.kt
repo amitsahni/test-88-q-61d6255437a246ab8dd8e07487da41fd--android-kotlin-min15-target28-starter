@@ -66,6 +66,22 @@ fun <T> Resource<T>.unwrap(): T? {
     }
 }
 
+fun <T> Resource<T>.success(): T? {
+    return if (this is Resource.Success<T>) {
+        this.data
+    } else {
+        null
+    }
+}
+
+fun <T> Resource<T>.error(): Failure? {
+    return if (this is Resource.Error<T>) {
+        this.error
+    } else {
+        null
+    }
+}
+
 fun <T> Event<Resource<T>>.toFlow() = flow {
     emit(this@toFlow)
 }
