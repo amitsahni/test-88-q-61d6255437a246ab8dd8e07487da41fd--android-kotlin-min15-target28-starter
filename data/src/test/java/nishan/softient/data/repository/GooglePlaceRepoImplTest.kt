@@ -3,11 +3,8 @@ package nishan.softient.data.repository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import nishan.softient.data.datasource.remote.GooglePlaceApi
-import nishan.softient.domain.entity.response.GooglePlaceResult
-import nishan.softient.domain.entity.wrapped.FlowEventResult
 import nishan.softient.domain.entity.wrapped.error
 import nishan.softient.domain.entity.wrapped.success
-import nishan.softient.domain.entity.wrapped.unwrap
 import nishan.softient.domain.repository.GooglePlaceRepo
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
@@ -40,7 +37,7 @@ class GooglePlaceRepoImplTest : BaseRepoTest() {
         }
         runBlocking {
             googlePlaceRepoImpl.restaurants(emptyMap()).collect {
-                it.peekContent().success()
+                println("getRest_Success = ${it.peekContent().success()}")
             }
         }
     }
@@ -56,7 +53,7 @@ class GooglePlaceRepoImplTest : BaseRepoTest() {
         }
         runBlocking {
             googlePlaceRepoImpl.restaurants(emptyMap()).collect {
-                it.peekContent().error()
+                println("getRest_Error = ${it.peekContent().error()}")
             }
         }
     }

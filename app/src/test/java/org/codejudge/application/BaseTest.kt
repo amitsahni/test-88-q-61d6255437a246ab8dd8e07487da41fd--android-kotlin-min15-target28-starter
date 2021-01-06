@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Before
 import org.junit.Rule
 import org.mockito.Mockito
 import java.util.concurrent.CountDownLatch
@@ -25,6 +26,12 @@ open class BaseTest {
     @ExperimentalCoroutinesApi
     @get:Rule
     var coroutineTestRule = CoroutineTestRule()
+
+
+    @Before
+    open fun setUp() {
+
+    }
 
 
     fun getLifeCycle(): LifecycleRegistry {
@@ -65,40 +72,4 @@ fun <T> LiveData<T>.getOrAwaitTestValue(
 
     @Suppress("UNCHECKED_CAST")
     return data as T
-}
-
-/**
- * Observes a [LiveData] until the `block` is done executing.
- */
-fun <T> LiveData<T>.observeForTesting(block: () -> Unit) {
-    val observer = Observer<T> { }
-    try {
-        observeForever(observer)
-        block()
-    } finally {
-        removeObserver(observer)
-    }
-}
-
-fun <T> LiveData<T>.observeOnce(onChangeHandler: (T) -> Unit) {
-    val observer = OneTimeObserver(onChangeHandler)
-    //Lifecycle owner and observer
-    observe(observer, observer)
-}
-
-internal class OneTimeObserver<T>(private val handler: (T) -> Unit) : Observer<T>, LifecycleOwner {
-
-    private val lifecycle = LifecycleRegistry(this)
-
-    init {
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    }
-
-    override fun getLifecycle(): Lifecycle = lifecycle
-
-    override fun onChanged(t: T) {
-        handler(t)
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    }
-
 }

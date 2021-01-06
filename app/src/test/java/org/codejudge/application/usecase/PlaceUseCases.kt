@@ -22,4 +22,8 @@ class GooglePlaceFakeUseCase(private val uiState: UiState) : GooglePlaceBaseUseC
             UiState.ERROR -> Resource.Error(-1, Failure("Something went wrong"))
         }.toFlow()
     }
+
+    override fun execute(parameter: GooglePlaceRequest?, isTesting: Boolean): FlowEventResult<GooglePlaceResult> {
+        return super.execute(parameter, true)
+    }
 }
