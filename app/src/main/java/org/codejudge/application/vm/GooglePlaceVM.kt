@@ -1,24 +1,20 @@
 package org.codejudge.application.vm
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import nishan.softient.domain.entity.request.GooglePlaceRequest
+import nishan.softient.domain.entity.response.GooglePlaceResult
 import nishan.softient.domain.usecase.GooglePlaceBaseUseCase
+import org.codejudge.application.extension.EventResultLiveData
+import org.codejudge.application.extension.MutableEventResultLiveData
 
 class GooglePlaceVM(
         private val placeUseCase: GooglePlaceBaseUseCase
 ) : BaseVM() {
 
-    override fun onAction(event: UserEvent) {
-        when (event) {
-            is PlaceSearchEvent.Place -> {
-                _googlePlaceLiveData.value = event.request
-            }
+    private val _googlePlaceLiveData = MutableEventResultLiveData<GooglePlaceResult>()
+    val googlePlaceLiveData: EventResultLiveData<GooglePlaceResult> get() = _googlePlaceLiveData
+    fun getPlace(request: GooglePlaceRequest) {
+        placeUseCase.execute(request).collectFlow {
+            _googlePlaceLiveData.postValue(it)
         }
-    }
-
-    private val _googlePlaceLiveData = MutableLiveData<GooglePlaceRequest>()
-    val googlePlaceLiveData = Transformations.switchMap(_googlePlaceLiveData) {
-        placeUseCase.execute(viewModelIOScope, it).toLiveData()
     }
 }

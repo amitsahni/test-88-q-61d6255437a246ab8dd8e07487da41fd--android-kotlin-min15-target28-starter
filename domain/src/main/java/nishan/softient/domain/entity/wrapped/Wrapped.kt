@@ -6,10 +6,13 @@
 
 package nishan.softient.domain.entity.wrapped
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import nishan.softient.domain.entity.response.base.Failure
 import nishan.softient.domain.extension.G
 
 typealias EventResult<R> = Event<Resource<R>>
+typealias FlowEventResult<R> = Flow<Event<Resource<R>>>
 
 open class Event<out T>(private val content: T) {
 
@@ -34,28 +37,6 @@ open class Event<out T>(private val content: T) {
     fun peekContent(): T = content
 }
 
-/*data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
-    companion object {
-        fun <T> success(data: T): Resource<T> {
-            return Resource(Status.SUCCESS, data, null)
-        }
-
-        fun <T> error(msg: String, data: T?): Resource<T> {
-            return Resource(Status.ERROR, data, msg)
-        }
-
-        fun <T> loading(data: T?): Resource<T> {
-            return Resource(Status.LOADING, data, null)
-        }
-    }
-}
-
-enum class Status {
-    SUCCESS,
-    ERROR,
-    LOADING
-}*/
-
 sealed class Resource<out T> {
 
     object Loading : Resource<Nothing>()
@@ -75,4 +56,20 @@ fun <T> retrofit2.Response<T>.wrap(): Resource<T> {
         val failure = G.json.decodeFromString(Failure.serializer(), errorBody()?.string()!!)
         Resource.Error(code(), failure)
     }
+}
+
+fun <T> Resource<T>.unwrap(): T? {
+    return if (this is Resource.Success<T>) {
+        this.data
+    } else {
+        null
+    }
+}
+
+fun <T> Event<Resource<T>>.toFlow() = flow {
+    emit(this@toFlow)
+}
+
+fun <T> Resource<T>.toFlow() = flow {
+    emit(Event(this@toFlow))
 }

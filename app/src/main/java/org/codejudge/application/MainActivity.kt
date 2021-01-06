@@ -25,11 +25,11 @@ class MainActivity : BaseAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.rv.adapter = adapter
-        googlePlaceVM.post(PlaceSearchEvent.Place(GooglePlaceRequest()))
+        googlePlaceVM.getPlace(GooglePlaceRequest())
         binding.editSearch.addTextChangedListener {
             it?.let {
                 debounceLaunch {
-                    googlePlaceVM.post(PlaceSearchEvent.Place(GooglePlaceRequest(it.toString())))
+                    googlePlaceVM.getPlace(GooglePlaceRequest(it.toString()))
                 }
             }
         }
