@@ -16,10 +16,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", "\"https://maps.googleapis.com\""
+            buildConfigField "String", "BASE_URL", "\"https://jsonplaceholder.typicode.com\""
         }
         release {
-            buildConfigField "String", "BASE_URL", "\"https://maps.googleapis.com\""
+            buildConfigField "String", "BASE_URL", "\"https://jsonplaceholder.typicode.com\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

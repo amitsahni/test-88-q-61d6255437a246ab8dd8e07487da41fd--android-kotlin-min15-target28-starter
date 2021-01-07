@@ -37,7 +37,7 @@ class MainActivity : BaseAppCompatActivity() {
 
     override fun observeLiveData() {
         googlePlaceVM.googlePlaceLiveData.observe(this, EventObserver(this) {
-            adapter.submitList(it.results)
+            adapter.submitList(it)
         })
     }
 }

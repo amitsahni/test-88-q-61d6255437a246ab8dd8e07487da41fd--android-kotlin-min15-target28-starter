@@ -5,7 +5,7 @@ import nishan.softient.domain.entity.wrapped.FlowEventResult
 import nishan.softient.domain.repository.GooglePlaceRepo
 
 open class GooglePlaceDataManager(private val googlePlaceRepo: GooglePlaceRepo) : GooglePlaceRepo {
-    override suspend fun restaurants(map: Map<String, String>): FlowEventResult<GooglePlaceResult> =
+    override suspend fun restaurants(map: Map<String, String>): FlowEventResult<List<GooglePlaceResult>> =
         googlePlaceRepo.restaurants(map)
 
 }

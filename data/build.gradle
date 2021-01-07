@@ -38,6 +38,9 @@ dependencies {
     implementation project(':domain')
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.8.0'
     testImplementation ("com.google.guava:guava:30.1-android")
+    testImplementation 'com.google.truth:truth:1.1'
+
+    
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     /*** HTTP ***/
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

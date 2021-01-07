@@ -7,5 +7,5 @@ import nishan.softient.domain.entity.wrapped.FlowEventResult
 import nishan.softient.domain.entity.wrapped.Resource
 
 interface GooglePlaceRepo {
-    suspend fun restaurants(map: Map<String, String>): FlowEventResult<GooglePlaceResult>
+    suspend fun restaurants(map: Map<String, String>): FlowEventResult<List<GooglePlaceResult>>
 }

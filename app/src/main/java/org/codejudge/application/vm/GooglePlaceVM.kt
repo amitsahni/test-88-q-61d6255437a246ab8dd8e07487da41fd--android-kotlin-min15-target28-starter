@@ -10,8 +10,8 @@ class GooglePlaceVM(
         private val placeUseCase: GooglePlaceBaseUseCase
 ) : BaseVM() {
 
-    private val _googlePlaceLiveData = MutableEventResultLiveData<GooglePlaceResult>()
-    val googlePlaceLiveData: EventResultLiveData<GooglePlaceResult> get() = _googlePlaceLiveData
+    private val _googlePlaceLiveData = MutableEventResultLiveData<List<GooglePlaceResult>>()
+    val googlePlaceLiveData: EventResultLiveData<List<GooglePlaceResult>> get() = _googlePlaceLiveData
     fun getPlace(request: GooglePlaceRequest) {
         placeUseCase.execute(request).collectFlow {
             _googlePlaceLiveData.postValue(it)

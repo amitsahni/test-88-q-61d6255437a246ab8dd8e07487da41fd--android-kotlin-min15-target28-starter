@@ -22,7 +22,7 @@ class GooglePlaceVMTest : BaseTest() {
         googlePlaceVM.getPlace(GooglePlaceRequest())
         val result = googlePlaceVM.googlePlaceLiveData.getOrAwaitTestValue().peekContent() as Resource.Success
         println("placeApi_returnSuccess = $result")
-        val value = result.data.results.size
+        val value = result.data.size
         assertThat(value).isEqualTo(0)
 
     }

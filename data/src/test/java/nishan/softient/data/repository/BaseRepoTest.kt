@@ -10,8 +10,10 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import retrofit2.Retrofit
+import timber.log.Timber
 import java.io.File
 import java.util.concurrent.TimeUnit
+import java.util.logging.Logger
 
 
 /**

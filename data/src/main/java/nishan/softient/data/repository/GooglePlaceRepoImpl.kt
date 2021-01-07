@@ -9,5 +9,5 @@ import nishan.softient.domain.repository.GooglePlaceRepo
 
 class GooglePlaceRepoImpl(private val googlePlaceApi: GooglePlaceApi) : GooglePlaceRepo {
 
-    override suspend fun restaurants(map: Map<String, String>): FlowEventResult<GooglePlaceResult> = googlePlaceApi.restaurants(map).wrap().toFlow()
+    override suspend fun restaurants(map: Map<String, String>): FlowEventResult<List<GooglePlaceResult>> = googlePlaceApi.restaurants(map).wrap().toFlow()
 }
