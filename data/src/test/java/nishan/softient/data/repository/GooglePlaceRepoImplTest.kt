@@ -34,7 +34,6 @@ class GooglePlaceRepoImplTest : BaseRepoTest() {
             println("getRest_Success = ${it.peekContent().success()}")
             Truth.assertThat(it.peekContent().success()?.size).isEqualTo(5000)
         }
-        googlePlaceRepoImpl.restaurants(emptyMap()).take(1).toList()
     }
 
     @Test

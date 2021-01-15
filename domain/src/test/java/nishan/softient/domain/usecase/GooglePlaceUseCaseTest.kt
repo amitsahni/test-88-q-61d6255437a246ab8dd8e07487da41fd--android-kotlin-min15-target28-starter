@@ -1,4 +1,4 @@
-package org.codejudge.application.usecase
+package nishan.softient.domain.usecase
 
 import nishan.softient.domain.entity.request.GooglePlaceRequest
 import nishan.softient.domain.entity.response.GooglePlaceResult

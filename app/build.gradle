@@ -61,6 +61,11 @@ android {
         ])
 
     }
+
+    /*sourceSets {
+        test.java.srcDirs += ["${project(':domain').projectDir}"]
+    }*/
+
 }
 
 dependencies {
