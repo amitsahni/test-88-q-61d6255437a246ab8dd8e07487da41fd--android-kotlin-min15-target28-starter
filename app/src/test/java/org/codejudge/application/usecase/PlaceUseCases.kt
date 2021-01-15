@@ -12,15 +12,12 @@ class GooglePlaceFakeUseCase(private val uiState: UiState) : GooglePlaceBaseUseC
 
     override suspend fun onExecute(parameter: GooglePlaceRequest?): FlowEventResult<List<GooglePlaceResult>> {
         return when (uiState) {
-            UiState.SUCCESS -> Resource.Success(200, emptyList<GooglePlaceResult>())
+            UiState.SUCCESS -> {
+               // val result = this.javaClass.classLoader.getResource("json/character_details.json").readText()
+                //println(result)
+                Resource.Success(200, emptyList<GooglePlaceResult>())
+            }
             UiState.ERROR -> Resource.Error(-1, Failure("Something went wrong"))
         }.toFlow()
-    }
-
-    override fun execute(
-        parameter: GooglePlaceRequest?,
-        isTesting: Boolean
-    ): FlowEventResult<List<GooglePlaceResult>> {
-        return super.execute(parameter, true)
     }
 }

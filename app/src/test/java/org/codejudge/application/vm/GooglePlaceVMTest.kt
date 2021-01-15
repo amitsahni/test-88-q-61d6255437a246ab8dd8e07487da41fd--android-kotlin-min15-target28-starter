@@ -1,39 +1,45 @@
 package org.codejudge.application.vm
 
-import android.util.Log
+import androidx.lifecycle.asFlow
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import nishan.softient.domain.entity.request.GooglePlaceRequest
 import nishan.softient.domain.entity.wrapped.Resource
 import org.codejudge.application.BaseTest
-import org.codejudge.application.getOrAwaitTestValue
 import org.codejudge.application.usecase.GooglePlaceFakeUseCase
 import org.codejudge.application.usecase.UiState
 import org.junit.Test
-import timber.log.Timber
 
 
 class GooglePlaceVMTest : BaseTest() {
 
     private lateinit var googlePlaceVM: GooglePlaceVM
 
+    private val coroutineDispatcher = TestCoroutineDispatcher()
+
     @Test
-    fun placeApi_returnSuccess() {
+    fun placeApi_returnSuccess() = runBlocking {
         initVM(UiState.SUCCESS)
         googlePlaceVM.getPlace(GooglePlaceRequest())
-        val result = googlePlaceVM.googlePlaceLiveData.getOrAwaitTestValue().peekContent() as Resource.Success
-        println("placeApi_returnSuccess = $result")
+        delay(10L)
+        val result =
+            googlePlaceVM.googlePlaceLiveData.asFlow().first().peekContent() as Resource.Success
+        println("runBlocking = $result")
         val value = result.data.size
         assertThat(value).isEqualTo(0)
-
     }
 
     @Test
-    fun placeApi_returnError() {
+    fun placeApi_returnError() = runBlocking {
         initVM(UiState.ERROR)
         googlePlaceVM.getPlace(GooglePlaceRequest())
-        val result = googlePlaceVM.googlePlaceLiveData.getOrAwaitTestValue().peekContent() as Resource.Error
-        println("placeApi_returnError = ${result.error}")
-        assertThat(result).isInstanceOf(Resource.Error::class.java)
+        delay(10L)
+        val result =
+            googlePlaceVM.googlePlaceLiveData.asFlow().first().peekContent() as Resource.Error
+        println("placeApi_returnError = $result")
         assertThat(result.error.message).isEqualTo("Something went wrong")
     }
 

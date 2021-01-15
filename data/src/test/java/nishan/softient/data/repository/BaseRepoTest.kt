@@ -6,6 +6,7 @@ import nishan.softient.domain.extension.G
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
@@ -65,6 +66,18 @@ open class BaseRepoTest {
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .build()
+    }
+
+    fun mockSuccessResponse(path : String) : MockResponse {
+        return MockResponse()
+            .setResponseCode(200)
+            .setBody(getJson(path))
+    }
+
+    fun mockErrorResponse(path : String) : MockResponse {
+        return MockResponse()
+            .setResponseCode(400)
+            .setBody(getJson(path))
     }
 
     @Suppress("UnstableApiUsage")
